@@ -70,6 +70,8 @@ def approval_loan_algorithm(applications, N, K):
     loan_disbursement = []
     loan_repayment = []
     while len(applications):
+        print(len(applications), 'left!')
+        print('*'*50) 
         application = applications[0]
         intersected = list(intersected_applications(application, applications))
         intersected.sort(key=lambda application: (
@@ -110,10 +112,18 @@ def main():
     N = int(user_input[2])
     K = int(user_input[3])
     applications = get_applications(loan_applications_file)
+    print('Collecting all applications!')
+    print('*'*50)
     defaulter_users = defaulter(applications)
+    print('Marking defaulters')
+    print('*'*50)
     applications = remove_high_risk_application(applications, defaulter_users)
+    print('Removing high risk applications from the approval criteria')
+    print('*'*50)
     applications.sort(key=lambda application: datetime.strptime(
         application['disbursement_date'], DATE_FORMAT))
+    print('Running algorithm to approve or disapprove the loan')
+    print('*'*50)    
     approved_loans = approval_loan_algorithm(applications, N, K)
     approved_loans_list = map(
         lambda item: item['application_id'], approved_loans)
